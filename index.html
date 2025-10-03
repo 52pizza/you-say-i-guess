@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>玩家頁面 - 你說我猜</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; background: #e9f5ff; text-align: center; }
+    h1 { font-size: 1.5rem; }
+    .word-box { margin: 1rem auto; padding: 1rem; background: #fff; border: 2px solid #007bff; font-size: 1.25rem; width: 80%; }
+    .buttons { margin-top: 1rem; }
+    button { margin: 0.5rem; padding: 0.75rem 1.5rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🎮 玩家操作介面</h1>
+  <div class="word-box" id="word">請按開始顯示題目</div>
+  <div class="buttons">
+    <button onclick="showNext()">開始／下一題</button>
+    <button onclick="score()">答對</button>
+    <button onclick="pass()">PASS</button>
+    <button onclick="violation()">犯規</button>
+  </div>
+  <div style="margin-top: 1rem;">
+    ✅ 得分：<span id="score">0</span> ｜ ❌ 犯規次數：<span id="violations">0</span>
+  </div>
+
+  <script>
+    const words = [
+      "虎頭蛇尾", "淚流滿面", "羊入虎口", "捧腹大笑", "平行線", "狼吞虎嚥", "與神同行", "甄環傳", 
+      "辦公室戀情", "我在墾丁天氣晴", "鹹蛋超人", "目瞪口呆", "土味情話", "金酸梅獎", "一別兩寬",
+      "披著羊皮的狼", "健人就是腳勤", "七夕情人節", "天文學家", "假髮", "天鵝湖", "錄音筆"
+    ];
+    let current = 0, scoreCount = 0, violations = 0;
+
+    function showNext() {
+      if (current >= words.length) {
+        document.getElementById("word").innerText = "🎉 題目結束";
+      } else {
+        document.getElementById("word").innerText = words[current];
+        current++;
+      }
+    }
+
+    function score() {
+      scoreCount++;
+      document.getElementById("score").innerText = scoreCount;
+      showNext();
+    }
+
+    function pass() {
+      showNext();
+    }
+
+    function violation() {
+      violations++;
+      document.getElementById("violations").innerText = violations;
+      if (violations >= 3) {
+        scoreCount = Math.max(0, scoreCount - 1);
+        document.getElementById("score").innerText = scoreCount;
+        alert("⚠ 第三次犯規，扣1分！");
+        showNext();
+      }
+    }
+  </script>
+</body>
+</html>
